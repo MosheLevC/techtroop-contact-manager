@@ -1,0 +1,91 @@
+MVC:
+
+Controller:
+app.js
+
+Model:
+contactService.js
+
+View:
+    console.log for printing messages to the user
+    commandHandler will be responsible for all the msges and error msgs to the CLI to inform the user
+
+
+Make this two in files manuelly
+    Commands:
+    The system will have array of commands.
+    each command has a name, arguments placeholder, and description {name,arguments_placeholder,description} 
+
+    Examples:
+    array of strings with examples of how to use the commands
+
+Add:
+    - arguments:{name,email,phonenumber}
+    - return: {true/false,message} to app.js   
+
+delete:
+    - arguments:{email}
+    - return: {true/false,message}
+
+list:
+    - arguments:{}
+    - return [{all the contacts in the system}] array of objects or not contacts found message
+
+search:
+    - arguments:{name}
+    - return [{all the contacts with the name}] array of objects
+    - if no contact is found and the list is empty print "No contact found matching {name}"
+
+
+help:
+    - arguments:{}
+    - return: prints all the available commands with their description and arguments placeholder
+              prints examples array
+
+any other command:
+    - return:  prints some error msg and then invoke help method      
+
+Validation:
+- check if valid command(one of the above commands)
+- check if missing arguments for the command
+- check if email is in valid format with simple Regex
+- check if phone number is in valid format with simple Regex (one for Israel version and one for example version) (in the future make with claude a better regex)
+- check if the contact with the same email already exists in the system when adding a new contact
+- check if contact exists in the system when deleting a contact
+
+
+Files purpose:
+app.js - main file that will run the application, will communicate with the command handler and contact service to perform the actions based on the user input and the system flow
+Utils/
+    validation.js - will have all the function to validate the user input for the commands, such as checking if the command is valid, if the arguments are valid, etc.
+    fileUtils.js - will have all the functions releted to file sytem such as : open file ,write to file,delete file,close file, etc.
+Services/
+    contactService.js - will do all the actions using the fileUtils to read/write to the file, such as adding a contact, deleting a contact, listing all contacts, searching for a contact, etc.
+
+
+Flow of System:
+    app.js runs and sends arguments to the command handler
+    command handler checks the command and uses the validation functions to validate the command and its arguments from validation.js
+    if the command is valid or invalid tell the result to app.js and then app.js will pass the command and its arguments to the contact service to perform the action
+    contact service will use the fileUtils to read/write to the file and perform the action based on the command and its arguments
+    contact service will return the result of the action to app.js
+    app.js will pass the result to the command handler to print the appropriate message to the user
+    exit app
+
+app.js => commandHandler => validation =>app.js =>  contactService => fileUtils = >app.js => commandHandler => print message to user
+     
+
+    how to i send the arguments to the command handler?
+    - I can create a function in commandHandler.js that takes the command and its arguments as parameters and then call that function from app.js with the user input as arguments.
+    example:
+
+
+    // in commandHandler.js
+    function handleCommand(command, args) {
+        // validate command and arguments
+        // call appropriate function from contactService.js based on the command
+    }
+    // in app.js
+    const { handleCommand } = require('./commandHandler');
+    const [,,...args] = process.argv;
+    handleCommand(args[0], args.slice(1)); // pass the command
