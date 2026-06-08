@@ -2,7 +2,7 @@ import { examples, printHelpCommandTable } from "../utils/misc.js";
 import { validateCommand } from "../utils/validation.js";
 
 export const handleCommand = (command, args) => {
-  if (command !== "add" || command !== "list" || command !== "delete" || command !== "search") {
+  if (command !== "add" && command !== "list" && command !== "delete" && command !== "search") {
     if (command !== "help") {
       console.log(`no such command ${command}\n`);
     }
