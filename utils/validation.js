@@ -1,7 +1,4 @@
 import fs from "fs";
-//   const commands = await fs.readFileSync("Command.JSON", "utf8");
-//   const commandsJson = JSON.parse(commands);
-//   const commandList = commandsJson.commands.map((item) => item.command);
 
 const testFullNameRegex = (fullName) => /^[A-Za-z]+(?:\s+[A-Za-z]+)+$/.test(fullName);
 const testEmailRegex = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
