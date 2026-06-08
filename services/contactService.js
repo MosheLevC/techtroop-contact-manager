@@ -47,7 +47,7 @@ const saveContacts = function (contacts) {
     return fileUtils.writeFile(CONTACTS_FILE, data)
 }
 
-const isContactExist= function(contacts,contact){
+const isContacfindContactByEmail= function(contacts,contact){
     return contacts.find(u => u.email === contact.email)
 }
 
