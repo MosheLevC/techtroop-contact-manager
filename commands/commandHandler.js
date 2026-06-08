@@ -1,42 +1,33 @@
-const contactService = require("../services/contactService")
+import { examples, printHelpCommandTable } from "../utils/misc.js";
+import { validateCommand } from "../utils/validation.js";
 
-const handleCommand = function (command, args) {
-    //
-    // Validation section to check if this command is valid and one of the(add, delete, list, search and help)
-    // 
-    
-    
-    //  if we are here then the command is valid now need to seperate into sections
-    // and inside before to check the amount of arguments is valid and they are valid 
-    //but need to use things from validation.js
-    switch(command){
-        case "add" :{
-
-        }
-        case "delete" :{
-            
-        }
-        case "list" :{
-            
-        }
-        case "search" :{
-            
-        }
-        case "help" :{
-            
-        }
-        default: {
-            console.log(`Unknown command: ${command}`)
-            console.log("Use: node app.js help")
-            return
-        }
+export const handleCommand = (command, args) => {
+  if (command !== "add" && command !== "list" && command !== "delete" && command !== "search") {
+    if (command !== "help") {
+      console.log(`no such command ${command}\n`);
     }
-}
+    printHelp();
+  }
+  return validateCommand(command, args);
+};
 
+const printHelp = () => {
+  console.log("Usage: node contacts.js [command] [arguments]\n");
+  console.log("Commands:");
+  printHelpCommandTable();
+  console.log("\nExamples:");
+  examples.forEach((example) => console.log("   ", example));
+};
 
+export const printSuccess = (commandResult) => {
+  console.log("✅ success!");
+  if (commandResult?.message) {
+    console.log(commandResult?.message);
+  } else {
+    console.log(commandResult);
+  }
+};
 
-
-
-module.exports = {
-    handleCommand
-}
+export const printError = (error) => {
+  console.log("⛔ Error:", error);
+};

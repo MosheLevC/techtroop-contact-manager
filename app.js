@@ -1,6 +1,18 @@
-const contactService = require("./services/contactService")
-const { handleCommand } = require("./commands/commandHandler")
+import { handleCommand, printError, printSuccess } from "./commands/commandHandler.js";
+import { handleFileAction } from "./services/contactService.js";
 
-const [,,command,...args] = process.argv
+const main = () => {
+  const [, , command, ...args] = process.argv;
 
-handleCommand(command,args)
+  const { isValid, message } = handleCommand(command, args);
+  if (isValid) {
+    const commandResult = handleFileAction(command, args);
+    if (commandResult?.success) {
+      printSuccess(commandResult);
+      return;
+    } else printError(commandResult.message);
+  } else printError(message);
+  return;
+};
+
+main();
