@@ -1,12 +1,18 @@
-import { handleCommand } from "./commands/commandHandler.js";
+import { handleCommand, printError, printSuccess } from "./commands/commandHandler.js";
+import { handleFileAction } from "./services/contactService.js";
 
 const main = () => {
   const [, , command, ...args] = process.argv;
 
   const { isValid, message } = handleCommand(command, args);
   if (isValid) {
-    console.log("noice");
-  } else console.log(message);
+    const commandResult = handleFileAction(command, args);
+    if (commandResult?.success) {
+      printSuccess(commandResult);
+      return;
+    } else printError(commandResult.message);
+  } else printError(message);
+  return;
 };
 
 main();
