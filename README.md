@@ -20,13 +20,6 @@ The view will be based on `console.log` for printing messages to the user.
 
 `commandHandler` will be responsible for all the messages and error messages to the CLI to inform the user.
 
----
-
-## Manual Files
-
-These files will be created manually.
-
----
 
 ## Commands
 

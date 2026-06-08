@@ -89,3 +89,18 @@ app.js => commandHandler => validation =>app.js =>  contactService => fileUtils 
     const { handleCommand } = require('./commandHandler');
     const [,,...args] = process.argv;
     handleCommand(args[0], args.slice(1)); // pass the command
+
+
+Daniel:
+    -fileUtils.js
+    -contactService.js
+    -app.js to contactService communication
+    
+
+Moshe:
+    -validation.js
+    -commandHandler.js
+    -app.js start of the system and sending the user input to the command handler
+    -app.js to commandHandler communication with the msg for prining the result to the user
+
+
