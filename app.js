@@ -1,11 +1,12 @@
-import { handleValidation } from "./commands/commandHandler.js";
-
-const [, , command, ...args] = process.argv;
+import { handleCommand } from "./commands/commandHandler.js";
 
 const main = () => {
-  if (handleValidation(command, args)) {
+  const [, , command, ...args] = process.argv;
+
+  const { isValid, message } = handleCommand(command, args);
+  if (isValid) {
     console.log("noice");
-  } else console.log("bad input");
+  } else console.log(message);
 };
 
 main();

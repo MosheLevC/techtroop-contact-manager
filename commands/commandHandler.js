@@ -1,5 +1,5 @@
 import { validateCommand } from "../utils/validation.js";
 
-export const handleValidation = (command, args) => {
+export const handleCommand = (command, args) => {
   return validateCommand(command, args);
 };
