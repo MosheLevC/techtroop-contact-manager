@@ -18,10 +18,11 @@ const printHelp = () => {
   examples.forEach((example) => console.log("   ", example));
 };
 
-export const printSuccess = (message, data) => {
+export const printSuccess = (messageArr, data) => {
   console.log("✅ success:");
-  console.log(message, "\n");
-  
+  messageArr.forEach((element) => console.log(element));
+  console.log(messageArr, "\n");
+
   if (data?.length > 0) {
     console.log("=== All Contacts ===");
     for (let i = 0; i < data.length; i++) {

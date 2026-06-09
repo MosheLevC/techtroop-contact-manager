@@ -8,10 +8,10 @@ const main = () => {
   if (isValid) {
     console.log("Loading contacts from contacts.json...");
 
-    const { success, message, data } = handleFileAction(command, args);
+    const { success, messageArr, data } = handleFileAction(command, args);
     if (success) {
-      printSuccess(message, data);
-    } else printError(message);
+      printSuccess(messageArr, data);
+    } else printError(messageArr[0]);
   } else printError(message);
   return;
 };
