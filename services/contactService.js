@@ -103,7 +103,7 @@ const deleteContact = function(email) {
             success: false,
             messageArr: [
                 loadResult.message,
-                `Error: ${saveResult.messageArr[0]}`
+                `Error: ${saveResult.message}`
             ],
             data: []
         }
@@ -116,7 +116,7 @@ const deleteContact = function(email) {
             `Contact deleted: ${contactToDelete.name}`,
             "Contacts saved to contacts.json"
         ],
-        data: updatedContacts
+        data: []
     }
 }
    
@@ -126,7 +126,7 @@ const listContacts = function () {
         return {
             success: false,
             status: "FILE_NOT_FOUND",
-            message: "File not found - starting with empty contact list",
+            messageArr: ["File not found - starting with empty contact list"],
             data: []
         }
     }
@@ -137,7 +137,7 @@ const listContacts = function () {
         return {
             success: false,
             status: "READ_ERROR",
-            message: readResult.messageArr[0],
+            messageArr: readResult.message,
             data: []
         }
     }
@@ -148,14 +148,14 @@ const listContacts = function () {
         return {
             success: true,
             status: "LOADED",
-            message: `Loaded ${contacts.length} contacts\n` ,
+            messageArr: [`Loaded ${contacts.length} contacts\n`] ,
             data: contacts
         }
     } catch (err) {
         return {
             success: false,
             status: "PARSE_ERROR",
-            message: "Error parsing contacts file",
+            messageArr: ["Error parsing contacts file"],
             data: []
         }
     }
@@ -241,7 +241,7 @@ const addContact = function (contact) {
             success: false,
             messageArr: [
                 loadResult.message,
-                `Error: ${saveResult.messageArr[0]}`
+                `Error: ${saveResult.message}`
             ],
             data: []
         }
