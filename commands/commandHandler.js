@@ -2,12 +2,17 @@ import { examples, printHelpCommandTable } from "../utils/misc.js";
 import { validateCommand } from "../utils/validation.js";
 
 export const handleCommand = (command, args) => {
-  if (command !== "add" && command !== "list" && command !== "delete" && command !== "search") {
-    if (command !== "help") {
-      console.log(`no such command ${command}\n`);
-    }
+  if (command === "help") {
     printHelp();
+    return { shouldExit: true };
   }
+
+  if (command !== "add" && command !== "list" && command !== "delete" && command !== "search") {
+    console.log(`no such command ${command}\n`);
+    printHelp();
+    return { shouldExit: true };
+  }
+
   return validateCommand(command, args);
 };
 const printHelp = () => {

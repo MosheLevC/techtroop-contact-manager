@@ -5,7 +5,14 @@ import { handleFileAction } from "./services/contactService.js";
 const main = () => {
   const [, , command, ...args] = process.argv;
 
-  const { isValid, message } = handleCommand(command, args);
+  const commandResult = handleCommand(command, args);
+
+  if (commandResult.shouldExit) {
+    console.log("\n");
+    return;
+  }
+
+  const { isValid, message } = commandResult;
   if (isValid) {
     console.log("Loading contacts from contacts.json...");
 
