@@ -130,5 +130,6 @@ module.exports = {
     addContact,
     isContactExist,
     saveContacts,
-    loadContacts
+    loadContacts,
+    searchContactsByName
 }
