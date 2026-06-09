@@ -10,7 +10,6 @@ export const handleCommand = (command, args) => {
   }
   return validateCommand(command, args);
 };
-
 const printHelp = () => {
   console.log("Usage: node contacts.js [command] [arguments]\n");
   console.log("Commands:");

@@ -8,10 +8,12 @@ const main = () => {
   if (isValid) {
     const commandResult = handleFileAction(command, args);
     if (commandResult?.result) {
-      printSuccess(commandResult);
-      return;
-    } else printError(commandResult.message);
-  } else printError(message);
+        printSuccess(commandResult);
+        return;
+    } 
+    else printError(commandResult.message);
+  }
+  else printError(message);
   return;
 };
 

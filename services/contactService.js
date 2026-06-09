@@ -2,10 +2,27 @@ const fileUtils = require("../utils/fileUtils")
 
 const CONTACTS_FILE = "contacts.json"
 
-const loadContacts = function () {
+//should return object with {succsess: true or false, message:string, data = [] of contacts}
+const handleFileAction = function(command,args){
+
+    switch(command)
+
+        
+}
+
+const searchContactsByEmail = function(email){
+
+}
+
+const deleteContact = function(email){
+
+}
+   
+
+const listContacts = function () {
     if (!fileUtils.fileExists(CONTACTS_FILE)) {
         return {
-            result: true,
+            success: true,
             status: "FILE_NOT_FOUND",
             message: "File not found - starting with empty contact list",
             data: []
@@ -14,9 +31,9 @@ const loadContacts = function () {
 
     const readResult = fileUtils.readFile(CONTACTS_FILE)
 
-    if (!readResult.result) {
+    if (!readResult.success) {
         return {
-            result: false,
+            success: false,
             status: "READ_ERROR",
             message: readResult.message,
             data: []
@@ -27,14 +44,14 @@ const loadContacts = function () {
         const contacts = JSON.parse(readResult.data)
 
         return {
-            result: true,
+            success: true,
             status: "LOADED",
             message: `Loaded ${contacts.length} contacts`,
             data: contacts
         }
     } catch (err) {
         return {
-            result: false,
+            success: false,
             status: "PARSE_ERROR",
             message: "Error parsing contacts file",
             data: []
@@ -50,11 +67,14 @@ const saveContacts = function (contacts) {
 const isContactExist= function(contacts,contact){
     return contacts.find(u => u.email === contact.email)
 }
+
+
+
 const searchContactsByName = function (name){
-    const loadResult = loadContacts()
-    if (!loadResult.result){
+    const loadResult = listContacts()
+    if (!loadResult.success){
         return {
-            result: false,
+            success: false,
             message : loadResult.message
         }
     }
@@ -65,12 +85,12 @@ const searchContactsByName = function (name){
     })
     if (usersWithTheSameName.length === 0){
         return {
-            result: false,
+            success: false,
             message : `no contacts found for the name ${name}`
         }
     }
     return {
-        result: true,
+        success: true,
         message: [
             loadResult.message,
             `Found ${usersWithTheSameName.length} contact(s) matching: ${name}`
@@ -79,12 +99,16 @@ const searchContactsByName = function (name){
     }
 }
 
-const addContact = function (contact) {
-    const loadResult = loadContacts()
+const createContact = function(args){
+    return {name:args[0] , email:args[1] , phone:args[2]}
+}
 
-    if (!loadResult.result) {
+const addContact = function (contact) {
+    const loadResult = listContacts()
+
+    if (!loadResult.success) {
         return {
-        result: false,
+        success: false,
         message: [
             loadResult.message
         ]
@@ -94,7 +118,7 @@ const addContact = function (contact) {
     const existingContact = isContactExist(contacts,contact)
     if (existingContact) {
         return {
-            result: false,
+            success: false,
             message: [
                 `${loadResult.message}`,
                 "Error: Contact with this email already exists"
@@ -105,9 +129,9 @@ const addContact = function (contact) {
 
     const saveResult = saveContacts(contacts)
 
-    if (!saveResult.result) {
+    if (!saveResult.success) {
         return {
-            result: false,
+            success: false,
             message: [
                 `${loadResult.message}`,
                 `Error: ${saveResult.message}`
@@ -116,7 +140,7 @@ const addContact = function (contact) {
     }
 
     return {
-        result: true,
+        success: true,
         message: [
             `${loadResult.message}`,
             `Contact added: ${contact.name}`,
@@ -129,6 +153,8 @@ module.exports = {
     addContact,
     isContactExist,
     saveContacts,
-    loadContacts,
+    deleteContact,
+    searchContactsByEmail,
+    loadContacts: listContacts,
     searchContactsByName
 }
