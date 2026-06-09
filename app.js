@@ -6,14 +6,13 @@ const main = () => {
 
   const { isValid, message } = handleCommand(command, args);
   if (isValid) {
-    const commandResult = handleFileAction(command, args);
-    if (commandResult?.result) {
-        printSuccess(commandResult);
-        return;
-    } 
-    else printError(commandResult.message);
-  }
-  else printError(message);
+    console.log("Loading contacts from contacts.json...");
+
+    const { success, message, data } = handleFileAction(command, args);
+    if (success) {
+      printSuccess(message, data);
+    } else printError(message);
+  } else printError(message);
   return;
 };
 

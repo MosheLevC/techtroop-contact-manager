@@ -18,12 +18,15 @@ const printHelp = () => {
   examples.forEach((example) => console.log("   ", example));
 };
 
-export const printSuccess = (commandResult) => {
-  console.log("✅ success!");
-  if (commandResult?.message) {
-    console.log(commandResult?.message);
-  } else {
-    console.log(commandResult);
+export const printSuccess = (message, data) => {
+  console.log("✅ success:");
+  console.log(message, "\n");
+
+  if (data.length > 0) {
+    console.log("=== All Contacts ===");
+    for (let i = 0; i < data.length; i++) {
+      console.log(`${i}. ${data[i].fullName} - ${data[i].email} - ${data[i].phone}`);
+    }
   }
 };
 
