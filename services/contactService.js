@@ -2,20 +2,121 @@ const fileUtils = require("../utils/fileUtils")
 
 const CONTACTS_FILE = "contacts.json"
 
-//should return object with {succsess: true or false, message:string, data = [] of contacts}
-const handleFileAction = function(command,args){
+const handleFileAction = function(command, args) {
+    switch (command) {
+        case "add":
+            return addContact(createContact(args))
 
-    switch(command)
+        case "list":
+            return listContacts()
 
-        
+        case "search":
+            if (args[0].includes("@")) {
+                return searchContactsByEmail(args[0])
+            }
+            return searchContactsByName(args[0])
+
+        case "delete":
+            return deleteContact(args[0])
+
+        default:
+            return {
+                success: false,
+                message: "Invalid command",
+                data: []
+            }
+    }
 }
 
 const searchContactsByEmail = function(email){
+    const loadResult = listContacts()
 
+    if (!loadResult.success) {
+        return {
+            success: false,
+            message: loadResult.message,
+            data: []
+        }
+    }
+
+    const contacts = loadResult.data
+
+    const usersWithTheSameEmail = contacts.filter(u => {
+        return u.email.toLowerCase().includes(email.toLowerCase())
+    })
+
+    if (usersWithTheSameEmail.length === 0) {
+        return {
+            success: false,
+            message: `no contacts found for the email ${email}`,
+            data: []
+        }
+    }
+
+    return {
+        success: true,
+        message: [
+            loadResult.message,
+            `Found ${usersWithTheSameEmail.length} contact(s) matching: ${email}`
+        ],
+        data: usersWithTheSameEmail
+    }
 }
 
-const deleteContact = function(email){
+const deleteContact = function(email) {
+    const loadResult = listContacts()
 
+    if (!loadResult.success) {
+        return {
+            success: false,
+            message: loadResult.message,
+            data: []
+        }
+    }
+
+    const contacts = loadResult.data
+
+    const contactToDelete = contacts.find(u => {
+        return u.email.toLowerCase() === email.toLowerCase()
+    })
+
+    if (!contactToDelete) {
+        return {
+            success: false,
+            message: [
+                loadResult.message,
+                `Error: Contact with email ${email} was not found`
+            ],
+            data: []
+        }
+    }
+
+    const updatedContacts = contacts.filter(u => {
+        return u.email.toLowerCase() !== email.toLowerCase()
+    })
+
+    const saveResult = saveContacts(updatedContacts)
+
+    if (!saveResult.success) {
+        return {
+            success: false,
+            message: [
+                loadResult.message,
+                `Error: ${saveResult.message}`
+            ],
+            data: []
+        }
+    }
+
+    return {
+        success: true,
+        message: [
+            loadResult.message,
+            `Contact deleted: ${contactToDelete.name}`,
+            "Contacts saved to contacts.json"
+        ],
+        data: updatedContacts
+    }
 }
    
 
@@ -75,7 +176,8 @@ const searchContactsByName = function (name){
     if (!loadResult.success){
         return {
             success: false,
-            message : loadResult.message
+            message : loadResult.message,
+            data : []
         }
     }
     const contacts = loadResult.data
@@ -86,14 +188,16 @@ const searchContactsByName = function (name){
     if (usersWithTheSameName.length === 0){
         return {
             success: false,
-            message : `no contacts found for the name ${name}`
+            message : `no contacts found for the name ${name}`,
+            data : []
+
         }
     }
     return {
         success: true,
         message: [
             loadResult.message,
-            `Found ${usersWithTheSameName.length} contact(s) matching: ${name}`
+            `Found ${usersWithTheSameName.length} contact(s) matching: ${name}`,
         ],
         data: usersWithTheSameName
     }
@@ -155,6 +259,7 @@ module.exports = {
     saveContacts,
     deleteContact,
     searchContactsByEmail,
+    handleFileAction,
     loadContacts: listContacts,
     searchContactsByName
 }
