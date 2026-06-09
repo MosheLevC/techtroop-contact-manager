@@ -7,7 +7,7 @@ const main = () => {
   const { isValid, message } = handleCommand(command, args);
   if (isValid) {
     const commandResult = handleFileAction(command, args);
-    if (commandResult?.success) {
+    if (commandResult?.result) {
       printSuccess(commandResult);
       return;
     } else printError(commandResult.message);

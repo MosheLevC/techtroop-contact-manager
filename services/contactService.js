@@ -63,7 +63,7 @@ const searchContactsByName = function (name){
     usersWithTheSameName = contacts.filter(u => {
         return u.name.toLowerCase().includes(name.toLowerCase())
     })
-    if (usersWithTheSameName.data.length === 0){
+    if (usersWithTheSameName.length === 0){
         return {
             result: false,
             message : `no contacts found for the name ${name}`
@@ -101,7 +101,6 @@ const addContact = function (contact) {
             ]
         }
     }
-
     contacts.push(contact)
 
     const saveResult = saveContacts(contacts)
