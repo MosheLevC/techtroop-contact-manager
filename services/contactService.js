@@ -47,8 +47,36 @@ const saveContacts = function (contacts) {
     return fileUtils.writeFile(CONTACTS_FILE, data)
 }
 
-const isContacfindContactByEmail= function(contacts,contact){
+const isContactExist= function(contacts,contact){
     return contacts.find(u => u.email === contact.email)
+}
+const searchContactsByName = function (name){
+    const loadResult = loadContacts()
+    if (!loadResult.result){
+        return {
+            result: false,
+            message : loadResult.message
+        }
+    }
+    const contacts = loadResult.data
+    let usersWithTheSameName = []
+    usersWithTheSameName = contacts.filter(u => {
+        return u.name.toLowerCase().includes(name.toLowerCase())
+    })
+    if (usersWithTheSameName.data.length === 0){
+        return {
+            result: false,
+            message : `no contacts found for the name ${name}`
+        }
+    }
+    return {
+        result: true,
+        message: [
+            loadResult.message,
+            `Found ${usersWithTheSameName.length} contact(s) matching: ${name}`
+        ],
+        data: usersWithTheSameName
+    }
 }
 
 const addContact = function (contact) {
@@ -99,5 +127,8 @@ const addContact = function (contact) {
 }
 
 module.exports = {
-    addContact
+    addContact,
+    isContactExist,
+    saveContacts,
+    loadContacts
 }
