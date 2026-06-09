@@ -1,0 +1,339 @@
+CONTACTS CLI PROJECT - INTERNAL README
+
+PROJECT GOAL
+
+The goal of this project is to build a simple Command Line Interface application for managing contacts.
+
+The user will be able to:
+
+* Add a new contact
+* List all contacts
+* Search for contacts
+* Delete a contact
+* Print help instructions
+
+The contacts will be saved locally in a JSON file called contacts.json.
+
+This project is mainly focused on practicing:
+
+* Node.js basics
+* Working with files
+* JSON parsing and writing
+* CLI arguments with process.argv
+* Validation
+* Separation of responsibilities between files
+* Simple MVC-style architecture
+
+PROJECT ARCHITECTURE
+
+The project is built with a simple MVC-inspired structure.
+
+Controller:
+app.js
+
+The app.js file is the main entry point of the application.
+It reads the user input from the command line, sends the command and arguments to the command handler, and then calls the contact service if the command is valid.
+
+Model / Service:
+contactService.js
+
+The contactService.js file contains the main business logic of the application.
+It is responsible for working with contacts, such as adding, deleting, listing, and searching contacts.
+
+View:
+commandHandler.js
+
+The commandHandler.js file is responsible for handling command-related messages and printing output to the user.
+It prints success messages, error messages, help messages, and command examples.
+
+Utilities:
+validation.js
+fileUtils.js
+misc.js
+
+The utils files contain helper functions used by the rest of the project.
+
+SUPPORTED COMMANDS
+
+add:
+Arguments:
+
+* name
+* email
+* phone
+
+Purpose:
+Adds a new contact to the contacts list.
+
+Expected result:
+
+* If the contact is valid and the email does not already exist, the contact will be added.
+* If the contact is invalid or already exists, an error message will be returned.
+
+Example:
+node contacts.js add "John Doe" "[john@example.com](mailto:john@example.com)" "555-123-4567"
+
+list:
+Arguments:
+
+* none
+
+Purpose:
+Prints all contacts saved in the system.
+
+Expected result:
+
+* If contacts exist, print all contacts.
+* If there are no contacts, print a message saying that no contacts were found.
+
+Example:
+node contacts.js list
+
+search:
+Arguments:
+
+* query
+
+Purpose:
+Searches for contacts by name or email.
+
+Expected result:
+
+* If matching contacts are found, return and print them.
+* If no matching contacts are found, print a message saying no contacts were found for the given query.
+
+Example:
+node contacts.js search "john"
+
+delete:
+Arguments:
+
+* email
+
+Purpose:
+Deletes a contact by email.
+
+Expected result:
+
+* If the contact exists, delete it from the contacts list.
+* If the contact does not exist, return an error message.
+
+Example:
+node contacts.js delete "[john@example.com](mailto:john@example.com)"
+
+help:
+Arguments:
+
+* none
+
+Purpose:
+Prints all available commands, their arguments, descriptions, and usage examples.
+
+Example:
+node contacts.js help
+
+INVALID COMMAND
+
+If the user enters a command that does not exist, the system should:
+
+1. Print an error message.
+2. Print the help menu so the user can see the available commands.
+
+VALIDATION RULES
+
+The validation layer should check:
+
+Command validation:
+
+* The command must be one of the supported commands:
+  add, list, search, delete, help
+
+Arguments validation:
+
+* Check if required arguments are missing.
+* Check if too many arguments were provided.
+* Check if the full name is valid.
+* Check if the email format is valid.
+* Check if the phone number format is valid.
+
+Contacts validation:
+
+* When adding a contact, check if a contact with the same email already exists.
+* When deleting a contact, check if a contact with that email exists.
+
+FILES PURPOSE
+
+app.js:
+The main file that starts the application.
+It reads the command line input and manages the main flow of the system.
+
+commands/commandHandler.js:
+Handles commands from the user.
+It validates commands, prints help instructions, prints success messages, and prints error messages.
+
+services/contactService.js:
+Contains the main logic for contact actions.
+It uses fileUtils to load and save contacts from contacts.json.
+
+utils/fileUtils.js:
+Contains file system helper functions.
+Responsible for checking if a file exists, reading a file, writing to a file, and creating a file when needed.
+
+utils/validation.js:
+Contains validation helper functions.
+Responsible for checking commands, arguments, email format, phone format, and name format.
+
+utils/misc.js:
+Contains helper data and helper functions for printing commands and examples.
+
+command.json:
+Stores the available commands, their parameters, and their descriptions.
+
+contacts.json:
+Stores the actual contacts data.
+This file is created or updated by the application.
+
+SYSTEM FLOW
+
+1. The user runs a command in the terminal.
+
+Example:
+node contacts.js add "John Doe" "[john@example.com](mailto:john@example.com)" "555-123-4567"
+
+2. app.js reads the command and arguments from process.argv.
+
+3. app.js sends the command and arguments to commandHandler.js.
+
+4. commandHandler.js uses validation.js to check if the command and arguments are valid.
+
+5. If the command is invalid:
+
+   * An error message is printed.
+   * The system may print the help menu.
+   * The application exits.
+
+6. If the command is valid:
+
+   * app.js sends the command and arguments to contactService.js.
+
+7. contactService.js performs the requested action.
+
+8. contactService.js uses fileUtils.js when it needs to read or write contacts.json.
+
+9. contactService.js returns the result to app.js.
+
+10. app.js sends the result to commandHandler.js.
+
+11. commandHandler.js prints the final success or error message to the user.
+
+12. The application exits.
+
+SHORT FLOW
+
+User command
+=> app.js
+=> commandHandler.js
+=> validation.js
+=> app.js
+=> contactService.js
+=> fileUtils.js
+=> contactService.js
+=> app.js
+=> commandHandler.js
+=> print message to user
+
+DATA STRUCTURE
+
+Each contact should be saved as an object:
+
+{
+"name": "John Doe",
+"email": "[john@example.com](mailto:john@example.com)",
+"phone": "555-123-4567"
+}
+
+All contacts are saved inside an array in contacts.json:
+
+[
+{
+"name": "John Doe",
+"email": "[john@example.com](mailto:john@example.com)",
+"phone": "555-123-4567"
+}
+]
+
+EXPECTED RETURN FORMAT
+
+Most service functions should return an object with this structure:
+
+{
+result: true or false,
+message: "message to print",
+data: optional data
+}
+
+Examples:
+
+Success:
+{
+result: true,
+message: "Contact added successfully",
+data: contacts
+}
+
+Error:
+{
+result: false,
+message: "Contact with this email already exists",
+data: []
+}
+
+TEAM RESPONSIBILITIES
+
+Daniel:
+
+* fileUtils.js
+* contactService.js
+* app.js to contactService communication
+* Contact actions logic
+* Reading and writing contacts.json
+
+Moshe:
+
+* validation.js
+* commandHandler.js
+* app.js start flow and user input handling
+* app.js to commandHandler communication
+* Printing messages to the user
+
+CURRENT TODO
+
+Core features:
+
+* Finish add contact
+* Finish list contacts
+* Finish search contacts
+* Finish delete contact
+* Finish help command
+
+Validation:
+
+* Improve phone number validation
+* Decide if search should support name only, email only, or both
+* Make sure every command checks the correct number of arguments
+
+Code consistency:
+
+* Decide on one return format for the whole project
+* Use the same success field everywhere:
+  either result or success, but not both
+* Decide if the project uses import/export or require/module.exports
+* Avoid duplicating commands in both misc.js and command.json unless needed
+
+Future improvements:
+
+* Make the help menu read directly from command.json
+* Add better error messages
+* Add support for partial search by name
+* Add support for search by email
+* Add tests for validation functions
