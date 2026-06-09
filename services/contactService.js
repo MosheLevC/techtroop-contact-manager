@@ -177,7 +177,7 @@ const searchContactsByName = function (name){
     if (!loadResult.success){
         return {
             success: false,
-            message : loadResult.message,
+            message: loadResult.message,
             data : []
         }
     }
@@ -189,7 +189,7 @@ const searchContactsByName = function (name){
     if (usersWithTheSameName.length === 0){
         return {
             success: false,
-            message : `no contacts found for the name ${name}`,
+            message: `no contacts found for the name ${name}`,
             data : []
 
         }
@@ -210,23 +210,26 @@ const createContact = function(args){
 
 const addContact = function (contact) {
     const loadResult = listContacts()
-    if (!loadResult.success) {
+    const isMissingContactsFile = loadResult.status === "FILE_NOT_FOUND"
+
+    if (!loadResult.success && !isMissingContactsFile) {
         return {
-        success: false,
-        messageArr: [
-            loadResult.message
-        ]
+            success: false,
+            messageArr: loadResult.messageArr,
+            data: []
+        }
     }
-    }
-    const contacts = loadResult.data
+
+    const contacts = isMissingContactsFile ? [] : loadResult.data
     const existingContact = isContactExist(contacts,contact)
     if (existingContact) {
         return {
             success: false,
             messageArr: [
-                `${loadResult.message}`,
+                ...loadResult.messageArr,
                 "Error: Contact with this email already exists"
-            ]
+            ],
+            data: []
         }
     }
     contacts.push(contact)
@@ -237,19 +240,21 @@ const addContact = function (contact) {
         return {
             success: false,
             messageArr: [
-                `${loadResult.message}`,
+                ...loadResult.messageArr,
                 `Error: ${saveResult.message}`
-            ]
+            ],
+            data: []
         }
     }
 
     return {
         success: true,
         messageArr: [
-            `${loadResult.message}`,
+            ...loadResult.messageArr,
             `Contact added: ${contact.name}`,
             "Contacts saved to contacts.json"
-        ]
+        ],
+        data: []
     }
 }
 
