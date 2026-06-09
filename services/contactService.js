@@ -103,7 +103,7 @@ const deleteContact = function(email) {
             success: false,
             messageArr: [
                 loadResult.message,
-                `Error: ${saveResult.message}`
+                `Error: ${saveResult.messageArr[0]}`
             ],
             data: []
         }
@@ -126,7 +126,7 @@ const listContacts = function () {
         return {
             success: false,
             status: "FILE_NOT_FOUND",
-            messageArr: ["File not found - starting with empty contact list"],
+            message: "File not found - starting with empty contact list",
             data: []
         }
     }
@@ -137,7 +137,7 @@ const listContacts = function () {
         return {
             success: false,
             status: "READ_ERROR",
-            messageArr: [readResult.message],
+            message: readResult.messageArr[0],
             data: []
         }
     }
@@ -148,14 +148,14 @@ const listContacts = function () {
         return {
             success: true,
             status: "LOADED",
-            messageArr: [`Loaded ${contacts.length} contacts\n` ],
+            message: `Loaded ${contacts.length} contacts\n` ,
             data: contacts
         }
     } catch (err) {
         return {
             success: false,
             status: "PARSE_ERROR",
-            messageArr: ["Error parsing contacts file"],
+            message: "Error parsing contacts file",
             data: []
         }
     }
@@ -177,7 +177,7 @@ const searchContactsByName = function (name){
     if (!loadResult.success){
         return {
             success: false,
-            message: loadResult.message,
+            messageArr: loadResult.message,
             data : []
         }
     }
@@ -215,7 +215,7 @@ const addContact = function (contact) {
     if (!loadResult.success && !isMissingContactsFile) {
         return {
             success: false,
-            messageArr: loadResult.messageArr,
+            messageArr: loadResult.message,
             data: []
         }
     }
@@ -226,7 +226,7 @@ const addContact = function (contact) {
         return {
             success: false,
             messageArr: [
-                ...loadResult.messageArr,
+                loadResult.message,
                 "Error: Contact with this email already exists"
             ],
             data: []
@@ -240,8 +240,8 @@ const addContact = function (contact) {
         return {
             success: false,
             messageArr: [
-                ...loadResult.messageArr,
-                `Error: ${saveResult.message}`
+                loadResult.message,
+                `Error: ${saveResult.messageArr[0]}`
             ],
             data: []
         }
@@ -250,7 +250,7 @@ const addContact = function (contact) {
     return {
         success: true,
         messageArr: [
-            ...loadResult.messageArr,
+            loadResult.message,
             `Contact added: ${contact.name}`,
             "Contacts saved to contacts.json"
         ],
