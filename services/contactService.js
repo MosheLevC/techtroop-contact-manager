@@ -189,7 +189,7 @@ const searchContactsByName = function (name){
     if (usersWithTheSameName.length === 0){
         return {
             success: false,
-            message: `no contacts found for the name ${name}`,
+            messageArr: [`no contacts found for the name ${name}`],
             data : []
 
         }
