@@ -30,6 +30,9 @@ export const printSuccess = (messageArr, data) => {
   }
 };
 
-export const printError = (error) => {
-  console.log("⛔ Error:", error);
+export const printError = (messageArr) => {
+  const messages = Array.isArray(messageArr) ? messageArr : [messageArr];
+
+  console.log("⛔ Error:");
+  messages.forEach((message) => console.log(message));
 };

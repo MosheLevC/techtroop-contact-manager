@@ -35,7 +35,7 @@ const searchContactsByEmail = function(email){
     if (!loadResult.success) {
         return {
             success: false,
-            messageArr: [loadResult.message],
+            messageArr: [...loadResult.messageArr],
             data: []
         }
     }
@@ -57,7 +57,7 @@ const searchContactsByEmail = function(email){
     return {
         success: true,
         messageArr: [
-            loadResult.message,
+            ...loadResult.messageArr,
             `Found ${usersWithTheSameEmail.length} contact(s) matching: ${email}`
         ],
         data: usersWithTheSameEmail
@@ -70,7 +70,7 @@ const deleteContact = function(email) {
     if (!loadResult.success) {
         return {
             success: false,
-            messageArr: [loadResult.message],
+            messageArr: [...loadResult.messageArr],
             data: []
         }
     }
@@ -85,8 +85,8 @@ const deleteContact = function(email) {
         return {
             success: false,
             messageArr: [
-                loadResult.message,
-                `Error: Contact with email ${email} was not found`
+                ...loadResult.messageArr,
+                `Contact with email ${email} was not found`
             ],
             data: []
         }
@@ -102,7 +102,7 @@ const deleteContact = function(email) {
         return {
             success: false,
             messageArr: [
-                loadResult.message,
+                ...loadResult.messageArr,
                 `Error: ${saveResult.message}`
             ],
             data: []
@@ -112,7 +112,7 @@ const deleteContact = function(email) {
     return {
         success: true,
         messageArr: [
-            loadResult.message,
+            ...loadResult.messageArr,
             `Contact deleted: ${contactToDelete.name}`,
             "Contacts saved to contacts.json"
         ],
@@ -137,7 +137,7 @@ const listContacts = function () {
         return {
             success: false,
             status: "READ_ERROR",
-            messageArr: readResult.message,
+            messageArr: [readResult.message],
             data: []
         }
     }
@@ -177,7 +177,7 @@ const searchContactsByName = function (name){
     if (!loadResult.success){
         return {
             success: false,
-            messageArr: loadResult.message,
+            messageArr: [...loadResult.messageArr],
             data : []
         }
     }
@@ -197,7 +197,7 @@ const searchContactsByName = function (name){
     return {
         success: true,
         messageArr: [
-            loadResult.message,
+            ...loadResult.messageArr,
             `Found ${usersWithTheSameName.length} contact(s) matching: ${name}`,
         ],
         data: usersWithTheSameName
@@ -215,7 +215,7 @@ const addContact = function (contact) {
     if (!loadResult.success && !isMissingContactsFile) {
         return {
             success: false,
-            messageArr: loadResult.message,
+            messageArr: [...loadResult.messageArr],
             data: []
         }
     }
@@ -226,7 +226,7 @@ const addContact = function (contact) {
         return {
             success: false,
             messageArr: [
-                loadResult.message,
+                ...loadResult.messageArr,
                 "Error: Contact with this email already exists"
             ],
             data: []
@@ -240,7 +240,7 @@ const addContact = function (contact) {
         return {
             success: false,
             messageArr: [
-                loadResult.message,
+                ...loadResult.messageArr,
                 `Error: ${saveResult.message}`
             ],
             data: []
@@ -250,7 +250,7 @@ const addContact = function (contact) {
     return {
         success: true,
         messageArr: [
-            loadResult.message,
+            ...loadResult.messageArr,
             `Contact added: ${contact.name}`,
             "Contacts saved to contacts.json"
         ],

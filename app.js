@@ -12,7 +12,7 @@ const main = () => {
     const { success, messageArr, data } = handleFileAction(command, args);
     if (success) {
       printSuccess(messageArr, data);
-    } else printError(messageArr[0]);
+    } else printError(messageArr);
   } else printError(message);
   console.log("\n")
   return;
