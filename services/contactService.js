@@ -1,3 +1,4 @@
+const { log } = require("node:console")
 const fileUtils = require("../utils/fileUtils")
 
 const CONTACTS_FILE = "contacts.json"
@@ -123,7 +124,7 @@ const deleteContact = function(email) {
 const listContacts = function () {
     if (!fileUtils.fileExists(CONTACTS_FILE)) {
         return {
-            success: true,
+            success: false,
             status: "FILE_NOT_FOUND",
             message: "File not found - starting with empty contact list",
             data: []
@@ -209,7 +210,6 @@ const createContact = function(args){
 
 const addContact = function (contact) {
     const loadResult = listContacts()
-
     if (!loadResult.success) {
         return {
         success: false,

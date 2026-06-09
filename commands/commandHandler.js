@@ -21,8 +21,8 @@ const printHelp = () => {
 export const printSuccess = (message, data) => {
   console.log("✅ success:");
   console.log(message, "\n");
-
-  if (data.length > 0) {
+  
+  if (data?.length > 0) {
     console.log("=== All Contacts ===");
     for (let i = 0; i < data.length; i++) {
       console.log(`${i}. ${data[i].fullName} - ${data[i].email} - ${data[i].phone}`);

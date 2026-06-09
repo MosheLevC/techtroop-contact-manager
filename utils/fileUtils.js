@@ -9,14 +9,14 @@ const createFile = function (fileName, content = "[]") {
     const filePath = getRootFilePath(fileName)
 
     if (fs.existsSync(filePath)) {
-        return { result: false, message: "File already exists" }
+        return { success: false, message: "File already exists" }
     }
 
     try {
         fs.writeFileSync(filePath, content)
-        return { result: true, message: "File created" }
+        return { success: true, message: "File created" }
     } catch (err) {
-        return { result: false, message: "Error creating file" }
+        return { success: false, message: "Error creating file" }
     }
 }
 
@@ -30,9 +30,9 @@ const readFile = function (fileName) {
     const filePath = getRootFilePath(fileName)
     try {
         const content = fs.readFileSync(filePath,"utf-8")
-        return {result:true , data: content}
+        return {success:true , data: content}
     } catch (err) {
-        return { result: false, message: "Error reading file" }
+        return { success: false, message: "Error reading file" }
     }
 
 }
@@ -41,10 +41,10 @@ const writeFile = function (fileName, data) {
     const filePath = getRootFilePath(fileName)
     try { 
         fs.writeFileSync(filePath,data,"utf-8")
-        return { result: true, message: "File saved" }  
+        return { success: true, message: "File saved" }  
         
     } catch (error) {
-        return { result: false, message: "Error writing file" }
+        return { success: false, message: "Error writing file" }
     }
 
 }
