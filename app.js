@@ -1,3 +1,4 @@
+import { log } from "node:console";
 import { handleCommand, printError, printSuccess } from "./commands/commandHandler.js";
 import { handleFileAction } from "./services/contactService.js";
 
@@ -13,6 +14,7 @@ const main = () => {
       printSuccess(messageArr, data);
     } else printError(messageArr[0]);
   } else printError(message);
+  console.log("\n")
   return;
 };
 

@@ -21,7 +21,6 @@ const printHelp = () => {
 export const printSuccess = (messageArr, data) => {
   console.log("✅ success:");
   messageArr.forEach((element) => console.log(element));
-  console.log(messageArr, "\n");
 
   if (data?.length > 0) {
     console.log("=== All Contacts ===");

@@ -148,7 +148,7 @@ const listContacts = function () {
         return {
             success: true,
             status: "LOADED",
-            messageArr: [`Loaded ${contacts.length} contacts`],
+            messageArr: [`Loaded ${contacts.length} contacts\n` ],
             data: contacts
         }
     } catch (err) {
