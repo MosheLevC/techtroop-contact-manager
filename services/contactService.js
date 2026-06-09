@@ -23,7 +23,7 @@ const handleFileAction = function(command, args) {
         default:
             return {
                 success: false,
-                message: "Invalid command",
+                messageArr: ["Invalid command"],
                 data: []
             }
     }
@@ -35,7 +35,7 @@ const searchContactsByEmail = function(email){
     if (!loadResult.success) {
         return {
             success: false,
-            message: loadResult.message,
+            messageArr: [loadResult.message],
             data: []
         }
     }
@@ -49,14 +49,14 @@ const searchContactsByEmail = function(email){
     if (usersWithTheSameEmail.length === 0) {
         return {
             success: false,
-            message: `no contacts found for the email ${email}`,
+            messageArr: [`no contacts found for the email ${email}`],
             data: []
         }
     }
 
     return {
         success: true,
-        message: [
+        messageArr: [
             loadResult.message,
             `Found ${usersWithTheSameEmail.length} contact(s) matching: ${email}`
         ],
@@ -70,7 +70,7 @@ const deleteContact = function(email) {
     if (!loadResult.success) {
         return {
             success: false,
-            message: loadResult.message,
+            messageArr: [loadResult.message],
             data: []
         }
     }
@@ -84,7 +84,7 @@ const deleteContact = function(email) {
     if (!contactToDelete) {
         return {
             success: false,
-            message: [
+            messageArr: [
                 loadResult.message,
                 `Error: Contact with email ${email} was not found`
             ],
@@ -101,7 +101,7 @@ const deleteContact = function(email) {
     if (!saveResult.success) {
         return {
             success: false,
-            message: [
+            messageArr: [
                 loadResult.message,
                 `Error: ${saveResult.message}`
             ],
@@ -111,7 +111,7 @@ const deleteContact = function(email) {
 
     return {
         success: true,
-        message: [
+        messageArr: [
             loadResult.message,
             `Contact deleted: ${contactToDelete.name}`,
             "Contacts saved to contacts.json"
@@ -126,7 +126,7 @@ const listContacts = function () {
         return {
             success: false,
             status: "FILE_NOT_FOUND",
-            message: "File not found - starting with empty contact list",
+            messageArr: ["File not found - starting with empty contact list"],
             data: []
         }
     }
@@ -137,7 +137,7 @@ const listContacts = function () {
         return {
             success: false,
             status: "READ_ERROR",
-            message: readResult.message,
+            messageArr: [readResult.message],
             data: []
         }
     }
@@ -148,14 +148,14 @@ const listContacts = function () {
         return {
             success: true,
             status: "LOADED",
-            message: `Loaded ${contacts.length} contacts`,
+            messageArr: [`Loaded ${contacts.length} contacts`],
             data: contacts
         }
     } catch (err) {
         return {
             success: false,
             status: "PARSE_ERROR",
-            message: "Error parsing contacts file",
+            messageArr: ["Error parsing contacts file"],
             data: []
         }
     }
@@ -196,7 +196,7 @@ const searchContactsByName = function (name){
     }
     return {
         success: true,
-        message: [
+        messageArr: [
             loadResult.message,
             `Found ${usersWithTheSameName.length} contact(s) matching: ${name}`,
         ],
@@ -213,7 +213,7 @@ const addContact = function (contact) {
     if (!loadResult.success) {
         return {
         success: false,
-        message: [
+        messageArr: [
             loadResult.message
         ]
     }
@@ -223,7 +223,7 @@ const addContact = function (contact) {
     if (existingContact) {
         return {
             success: false,
-            message: [
+            messageArr: [
                 `${loadResult.message}`,
                 "Error: Contact with this email already exists"
             ]
@@ -236,7 +236,7 @@ const addContact = function (contact) {
     if (!saveResult.success) {
         return {
             success: false,
-            message: [
+            messageArr: [
                 `${loadResult.message}`,
                 `Error: ${saveResult.message}`
             ]
@@ -245,7 +245,7 @@ const addContact = function (contact) {
 
     return {
         success: true,
-        message: [
+        messageArr: [
             `${loadResult.message}`,
             `Contact added: ${contact.name}`,
             "Contacts saved to contacts.json"
