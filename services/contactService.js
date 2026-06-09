@@ -48,8 +48,11 @@ const searchContactsByEmail = function(email){
 
     if (usersWithTheSameEmail.length === 0) {
         return {
-            success: false,
-            messageArr: [`no contacts found for the email ${email}`],
+            success: true,
+            messageArr: [
+                ...loadResult.messageArr,
+                `No contacts found matching "${email}"`
+            ],
             data: []
         }
     }
@@ -188,8 +191,11 @@ const searchContactsByName = function (name){
     })
     if (usersWithTheSameName.length === 0){
         return {
-            success: false,
-            messageArr: [`no contacts found for the name ${name}`],
+            success: true,
+            messageArr: [
+                ...loadResult.messageArr,
+                `No contacts found matching "${name}"`
+            ],
             data : []
 
         }
