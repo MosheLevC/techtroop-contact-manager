@@ -1,0 +1,24 @@
+{
+  "name": "techtroop-contact-manager",
+  "version": "1.0.0",
+  "description": "A simple command-line application for managing contacts using Node.js.",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MosheLevC/techtroop-contact-manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MosheLevC/techtroop-contact-manager/issues"
+  },
+  "homepage": "https://github.com/MosheLevC/techtroop-contact-manager#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}
